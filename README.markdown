@@ -4,7 +4,7 @@ This web application will accept an image as input and output HTML code that if 
 Why not?
 <h3>Use Cases</h3>
 Email clients do not show images by default. But most of them render HTML code. Sometimes it worth to make image file size bigger but be sure that image will show up in emails. Like a company logo.
-<h3>Code<h3>
+<h3>Code</h3>
 This is bad code. Written in a few hours.
 <h3>What is next?</h3> 
  
