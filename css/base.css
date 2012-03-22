@@ -1,0 +1,7 @@
+  html{background:url(../img/bg.jpeg);}
+  body{font-family:arial, sans-serif; width:960px; margin:0 auto; padding:10px; background:white; box-shadow:0 0 60px black;}
+  .app h1{font-size:18px;}
+  .info{float:right;}
+  textarea{width:100%; height:300px;}
+  .container{padding:20px; border:1px solid gray; background:#eee;}
+  .drophere{position:fixed; left:50%; display:none; top:50%; width:720px; height:240px; margin:-120px 0 0 -360px; border:10px dashed gray; border-radius:40px; text-align:center; font-size:40px; line-height:240px; background:#F5DEC3; box-shadow:0 0 10px black, 0 0 3000px #F5DEC3; font-weight:bold; color:gray; text-shadow:0 0 5px white;}

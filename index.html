@@ -1,0 +1,32 @@
+<!DOCTYPE html "Five">
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Image to HTML Table Convertor</title>
+<link rel="stylesheet" type="text/css" href="css/base.css">
+</head>
+<body>
+  <h1>Image to HTML Table Convertor</h1>
+  <p class="info"><a href="http://mohsenweb.com">By Mohsen Azimi</a> | <a href="#">Github Repo</a></p>
+  <section class="app">
+    <p>Select an image or drag an image into browser to begin</p>
+    <div class="drophere">Drop Your Image Here</div>
+    <input type="file" id="file" />
+    <h1>Image</h1>
+    <div class="container">
+      <canvas id="c"></canvas>
+    </div>
+    <h1>Table</h1>
+    <div class="container">
+      <table id="t"></table>
+    </div>
+    <div class="compare">
+      <p>Table size: <span id="chars"></span> / PNG size: <span id="base64"></span> / Ratio: <span id="ratio"></span></p>
+    </div>
+    <h1>Result Code</h1>
+    <textarea id="output" placeholder="Output Code"></textarea>
+  </section>
+  <script type="text/javascript" src="js/generator.js"></script>
+</body>
+  
+</html>
