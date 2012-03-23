@@ -48,7 +48,7 @@ var crazyTable= {
           ratio.innerHTML = 'table is ' + ((t.outerHTML.length /1024).toFixed(2)/ (this.src.length /1024).toFixed(2)).toFixed() + ' times bigger';
         }
       };
-      img.src = src;
+      img.src = src; 
     }
   };
 
