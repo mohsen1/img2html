@@ -1,52 +1,65 @@
 var crazyTable= {
     build: function (src) {
       var img = new Image();
-      var c = document.getElementById('c');
-      var t = document.getElementById('t');
+      var canvas = document.getElementById('c');
+      var result = document.createElement('div');
       var output = document.getElementById('output');
       var chars = document.getElementById('chars');
       var base64 = document.getElementById('base64');
       var ratio = document.getElementById('ratio');
-      var ctx = c.getContext('2d');
+      var ctx = canvas.getContext('2d');
       var style = document.createElement('style');
       var rId = 't' + Math.floor(Math.random() * 9999999999999);
-      t.id = rId;
-      t.setAttribute('cellspacing', 0);
-      t.setAttribute('cellpadding', 0);
+      result.id = rId;
       img.onload = function(){
         ctx.canvas.width= this.width;
         ctx.canvas.height = this.height;
         ctx.drawImage(this,0,0);
-        style.innerHTML = "table#"+rId+",#"+rId+" tbody,#"+rId+" tr,#"+rId+" td{margin:0;padding:0;}#"
-                          +rId+" td{width:1px; height:1px;border:none;}";
+        style.innerHTML = "#"+rId+" i{display:block;margin:0;padding:0;width:1px; height:1px;border:none; float:left;}"
         style.style.display = 'none';
-        t.appendChild(style);
+        result.appendChild(style);
+		result.style.width = this.width + 'px';
+		result.style.height = this.height + 'px';
         var pixels = ctx.getImageData(0,0,ctx.canvas.width, ctx.canvas.height);
+		var colors = [];
+		var block = {color:'', width:1, height:1}
+		var isSameAsPreviousPixel = function(i,w,h){
+			if(
+					pixels.data[i] == pixels.data[i-4] && 
+					pixels.data[i+1] == pixels.data[i-3] && 
+					pixels.data[i+2] == pixels.data[i-2] && 
+					w!=0 && h!=0
+			) return true;
+			return false;
+		}
         for(var h=0; h<pixels.height; h++){
-          var tr = document.createElement('tr');
-          //var tdStack = 1;  TODO: use colspan to reduce output code or even rowspan too!
-
-          for(var w=0; w<pixels.width; w++){
-            var i = w*4 + h*4*pixels.width;
-            /*if(pixels.data[i] == pixels.data[i-4] && pixels.data[i+1] == pixels.data[i-3] && pixels.data[i+2] == pixels.data[i-2] && w!=0 && h!=0){
-              tdStack++
-            }else{*/
-            var td = document.createElement('td');
-              /*if(tdStack!=1){
-                td.setAttribute('colspan', tdStack);
-              }*/
-              if(pixels.data[i] || pixels.data[i+1] || pixels.data[i+2]){
-              td.style.backgroundColor = 'rgb(' + [pixels.data[i],pixels.data[i+1],pixels.data[i+2]].join(',') + ')';
-              }
-              tr.appendChild(td);
-            //}
-          }
-          t.appendChild(tr);
-          output.value = t.outerHTML;
-          chars.innerHTML = (t.outerHTML.length /1024).toFixed(2) + 'kb';
-          base64.innerHTML = (this.src.length /1024).toFixed(2) + 'kb';
-          ratio.innerHTML = 'table is ' + ((t.outerHTML.length /1024).toFixed(2)/ (this.src.length /1024).toFixed(2)).toFixed() + ' times bigger';
-        }
+			block.width = 1;
+			  for(var w=0; w<pixels.width; w++){
+				var i = w*4 + h*4*pixels.width;
+				if(isSameAsPreviousPixel(i,w,h)){
+					block.width++;
+				}else{
+					var cell = document.createElement('i');
+					/*if(tdStack!=1){
+					td.setAttribute('colspan', tdStack);
+					}*/
+					if(pixels.data[i] || pixels.data[i+1] || pixels.data[i+2]){
+						var color = ((256 + pixels.data[i]<< 8| pixels.data[i+1])<< 8| pixels.data[i+2]).toString(16).slice(1);
+						block.color = color;
+						if(colors.indexOf(color) == -1){colors.push(color);}
+						cell.setAttribute('style', 'background:#' + color + ';width:' + block.width + 'px');
+					}
+					result.appendChild(cell);
+				}
+			  }
+		}
+		console.log(colors);
+		document.getElementById('resultContainer').appendChild(result); // move it out of build
+	  output.value = result.outerHTML;
+	  chars.innerHTML = (result.outerHTML.length /1024).toFixed(2) + 'kb';
+	  base64.innerHTML = (this.src.length /1024).toFixed(2) + 'kb';
+	  ratio.innerHTML = 'table is ' + ((result.outerHTML.length /1024).toFixed(2)/ (this.src.length /1024).toFixed(2)).toFixed() + ' times bigger';
+        
       };
       img.src = src;
     }
